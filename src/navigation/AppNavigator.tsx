@@ -47,7 +47,7 @@ export const AppNavigator: React.FC<AppNavigatorProps> = ({
               component={AddTaskScreen}
               options={{
                 headerShown: true,
-                headerTitle: "",
+                title: "",
                 headerBackTitle: "Voltar",
               }}
             />
@@ -56,7 +56,7 @@ export const AppNavigator: React.FC<AppNavigatorProps> = ({
               component={FocusScreen}
               options={{
                 headerShown: true,
-                headerTitle: "",
+                title: "",
                 headerBackTitle: "Voltar",
               }}
             />
@@ -65,7 +65,7 @@ export const AppNavigator: React.FC<AppNavigatorProps> = ({
               component={ReportScreen}
               options={{
                 headerShown: true,
-                headerTitle: "",
+                title: "",
                 headerBackTitle: "Voltar",
               }}
             />

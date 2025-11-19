@@ -148,7 +148,6 @@ const styles = StyleSheet.create({
   },
   actions: {
     flexDirection: "row",
-    gap: 8,
   },
   button: {
     flex: 1,
@@ -156,6 +155,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 6,
     alignItems: "center",
+    marginHorizontal: 4,
   },
   completeButton: {
     backgroundColor: "#34C759",
