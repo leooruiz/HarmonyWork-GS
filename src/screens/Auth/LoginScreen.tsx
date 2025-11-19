@@ -96,22 +96,26 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
             placeholder="Digite sua senha"
             value={password}
             onChangeText={setPassword}
-            secureTextEntry
+            secureTextEntry={true}
           />
 
-          <Button
-            title={isLogin ? "Entrar" : "Criar conta"}
-            onPress={handleSubmit}
-            loading={loading}
-          />
+          <View style={{ marginTop: 8 }}>
+            <Button
+              title={isLogin ? "Entrar" : "Criar conta"}
+              onPress={handleSubmit}
+              loading={loading}
+            />
+          </View>
 
-          <Button
-            title={
-              isLogin ? "Não tem conta? Cadastre-se" : "Já tem conta? Entre"
-            }
-            onPress={() => setIsLogin(!isLogin)}
-            variant="secondary"
-          />
+          <View style={{ marginTop: 8 }}>
+            <Button
+              title={
+                isLogin ? "Não tem conta? Cadastre-se" : "Já tem conta? Entre"
+              }
+              onPress={() => setIsLogin(!isLogin)}
+              variant="secondary"
+            />
+          </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -147,7 +151,5 @@ const styles = StyleSheet.create({
     color: "#666",
     textAlign: "center",
   },
-  form: {
-    gap: 8,
-  },
+  form: {},
 });

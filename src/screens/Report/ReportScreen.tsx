@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { getTasks, getFocusSessions } from "../../services/taskService";
 import { Task, FocusSession } from "../../types";
+import { colors, typography, spacing, shadows } from "../../theme";
 
 export const ReportScreen: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -196,28 +197,27 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 4,
+    fontSize: typography.fontSize.xxl,
+    fontWeight: typography.fontWeight.bold,
+    color: colors.text.primary,
+    marginBottom: spacing.xs,
   },
   subtitle: {
-    fontSize: 14,
-    color: "#666",
+    fontSize: typography.fontSize.base,
+    color: colors.text.secondary,
   },
   section: {
-    padding: 16,
+    padding: spacing.base,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: 12,
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.semibold,
+    color: colors.text.primary,
+    marginBottom: spacing.md,
   },
   statsGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 12,
   },
   statCard: {
     flex: 1,
@@ -225,6 +225,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
+    margin: 6,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -233,14 +234,14 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   statValue: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#007AFF",
-    marginBottom: 4,
+    fontSize: typography.fontSize.xxxl,
+    fontWeight: typography.fontWeight.bold,
+    color: colors.primary,
+    marginBottom: spacing.xs,
   },
   statLabel: {
-    fontSize: 12,
-    color: "#666",
+    fontSize: typography.fontSize.xs,
+    color: colors.text.secondary,
     textAlign: "center",
   },
   focusCard: {
@@ -255,32 +256,32 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   focusValue: {
-    fontSize: 48,
-    fontWeight: "bold",
-    color: "#007AFF",
-    marginBottom: 8,
+    fontSize: typography.fontSize.huge,
+    fontWeight: typography.fontWeight.bold,
+    color: colors.primary,
+    marginBottom: spacing.sm,
   },
   focusLabel: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 16,
+    fontSize: typography.fontSize.base,
+    color: colors.text.secondary,
+    marginBottom: spacing.base,
   },
   focusStats: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 24,
   },
   focusStat: {
     alignItems: "center",
+    marginHorizontal: 12,
   },
   focusStatValue: {
-    fontSize: 24,
-    fontWeight: "600",
-    color: "#333",
+    fontSize: typography.fontSize.xl,
+    fontWeight: typography.fontWeight.semibold,
+    color: colors.text.primary,
   },
   focusStatLabel: {
-    fontSize: 12,
-    color: "#666",
+    fontSize: typography.fontSize.xs,
+    color: colors.text.secondary,
   },
   divider: {
     width: 1,
@@ -316,9 +317,9 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   priorityValue: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#007AFF",
+    fontSize: typography.fontSize.lg,
+    fontWeight: typography.fontWeight.semibold,
+    color: colors.primary,
   },
   insightCard: {
     backgroundColor: "#FFF9E6",

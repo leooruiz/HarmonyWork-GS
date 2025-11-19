@@ -167,13 +167,13 @@ const styles = StyleSheet.create({
   quickActions: {
     flexDirection: "row",
     padding: 16,
-    gap: 12,
   },
   actionButton: {
     flex: 1,
     backgroundColor: "#fff",
     borderRadius: 12,
     padding: 16,
+    marginHorizontal: 6,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },

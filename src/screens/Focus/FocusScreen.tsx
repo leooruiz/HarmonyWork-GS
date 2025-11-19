@@ -163,7 +163,9 @@ export const FocusScreen: React.FC<FocusScreenProps> = ({ navigation }) => {
           onPress={toggleTimer}
           variant={isActive ? "secondary" : "primary"}
         />
-        <Button title="Reiniciar" onPress={resetTimer} variant="danger" />
+        <View style={{ marginTop: 12 }}>
+          <Button title="Reiniciar" onPress={resetTimer} variant="danger" />
+        </View>
       </View>
 
       <View style={styles.tips}>
@@ -200,7 +202,6 @@ const styles = StyleSheet.create({
   },
   statsContainer: {
     flexDirection: "row",
-    gap: 12,
     marginBottom: 32,
   },
   statBox: {
@@ -208,6 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
+    marginHorizontal: 6,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -287,7 +289,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   controls: {
-    gap: 12,
     marginBottom: 24,
   },
   tips: {

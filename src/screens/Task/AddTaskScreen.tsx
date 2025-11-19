@@ -7,8 +7,8 @@ import {
   Platform,
   ScrollView,
   Alert,
+  TouchableOpacity,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { addTask } from "../../services/taskService";
@@ -65,7 +65,7 @@ export const AddTaskScreen: React.FC<AddTaskScreenProps> = ({ navigation }) => {
             placeholder="Ex: Preparar apresentação"
             value={title}
             onChangeText={setTitle}
-            autoFocus
+            autoFocus={true}
           />
 
           <Input
@@ -73,26 +73,69 @@ export const AddTaskScreen: React.FC<AddTaskScreenProps> = ({ navigation }) => {
             placeholder="Detalhes da tarefa (opcional)"
             value={description}
             onChangeText={setDescription}
-            multiline
+            multiline={true}
             numberOfLines={4}
             style={styles.textArea}
           />
 
           <View style={styles.pickerContainer}>
             <Text style={styles.label}>Prioridade</Text>
-            <View style={styles.pickerWrapper}>
-              <Picker
-                selectedValue={priority}
-                onValueChange={(value: TaskPriority) => setPriority(value)}
-                style={styles.picker}
+            <View style={styles.priorityButtons}>
+              <TouchableOpacity
+                style={[
+                  styles.priorityButton,
+                  priority === "high" && styles.priorityButtonActive,
+                  { backgroundColor: priority === "high" ? "#FF3B30" : "#FFF" },
+                ]}
+                onPress={() => setPriority("high")}
               >
-                <Picker.Item
-                  label="🔴 Alta - Urgente e importante"
-                  value="high"
-                />
-                <Picker.Item label="🟡 Média - Importante" value="medium" />
-                <Picker.Item label="🟢 Baixa - Pode esperar" value="low" />
-              </Picker>
+                <Text
+                  style={[
+                    styles.priorityButtonText,
+                    priority === "high" && styles.priorityButtonTextActive,
+                  ]}
+                >
+                  🔴 Alta
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.priorityButton,
+                  priority === "medium" && styles.priorityButtonActive,
+                  {
+                    backgroundColor: priority === "medium" ? "#FF9500" : "#FFF",
+                  },
+                ]}
+                onPress={() => setPriority("medium")}
+              >
+                <Text
+                  style={[
+                    styles.priorityButtonText,
+                    priority === "medium" && styles.priorityButtonTextActive,
+                  ]}
+                >
+                  🟡 Média
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.priorityButton,
+                  priority === "low" && styles.priorityButtonActive,
+                  { backgroundColor: priority === "low" ? "#34C759" : "#FFF" },
+                ]}
+                onPress={() => setPriority("low")}
+              >
+                <Text
+                  style={[
+                    styles.priorityButtonText,
+                    priority === "low" && styles.priorityButtonTextActive,
+                  ]}
+                >
+                  🟢 Baixa
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -110,11 +153,13 @@ export const AddTaskScreen: React.FC<AddTaskScreenProps> = ({ navigation }) => {
               onPress={handleSubmit}
               loading={loading}
             />
-            <Button
-              title="Cancelar"
-              onPress={() => navigation.goBack()}
-              variant="secondary"
-            />
+            <View style={{ marginTop: 12 }}>
+              <Button
+                title="Cancelar"
+                onPress={() => navigation.goBack()}
+                variant="secondary"
+              />
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -145,9 +190,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
   },
-  form: {
-    gap: 8,
-  },
+  form: {},
   textArea: {
     height: 100,
     textAlignVertical: "top",
@@ -161,15 +204,29 @@ const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 8,
   },
-  pickerWrapper: {
-    backgroundColor: "#F5F5F5",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
-    overflow: "hidden",
+  priorityButtons: {
+    flexDirection: "row",
   },
-  picker: {
-    height: 50,
+  priorityButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: "#E0E0E0",
+    marginHorizontal: 4,
+    alignItems: "center",
+  },
+  priorityButtonActive: {
+    borderColor: "transparent",
+  },
+  priorityButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#333",
+  },
+  priorityButtonTextActive: {
+    color: "#fff",
   },
   infoBox: {
     flexDirection: "row",
@@ -189,7 +246,6 @@ const styles = StyleSheet.create({
     color: "#007AFF",
   },
   actions: {
-    gap: 12,
     marginTop: 8,
   },
 });
