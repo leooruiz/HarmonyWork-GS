@@ -22,11 +22,36 @@ interface InputProps {
   numberOfLines?: number;
   keyboardType?: KeyboardTypeOptions;
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
-  autoComplete?: "off" | "email" | "password" | "username" | "name" | "tel" | "street-address" | "postal-code" | "cc-number" | "cc-exp" | "cc-exp-month" | "cc-exp-year";
+  autoComplete?:
+    | "off"
+    | "email"
+    | "password"
+    | "username"
+    | "name"
+    | "tel"
+    | "street-address"
+    | "postal-code"
+    | "cc-number"
+    | "cc-exp"
+    | "cc-exp-month"
+    | "cc-exp-year";
   autoCorrect?: boolean;
   editable?: boolean;
   maxLength?: number;
-  returnKeyType?: "done" | "go" | "next" | "search" | "send" | "none" | "previous" | "default" | "emergency-call" | "google" | "join" | "route" | "yahoo";
+  returnKeyType?:
+    | "done"
+    | "go"
+    | "next"
+    | "search"
+    | "send"
+    | "none"
+    | "previous"
+    | "default"
+    | "emergency-call"
+    | "google"
+    | "join"
+    | "route"
+    | "yahoo";
   onSubmitEditing?: () => void;
   onFocus?: () => void;
   onBlur?: () => void;
