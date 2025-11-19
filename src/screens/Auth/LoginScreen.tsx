@@ -8,6 +8,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { login, register } from "../../services/authService";
@@ -55,23 +56,24 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.flex}
       >
-        <View style={styles.header}>
-          <Text style={styles.logo}>⚡️</Text>
-          <Text style={styles.title}>HarmonyWork</Text>
-          <Text style={styles.subtitle}>
-            Seu dia organizado. Sua mente leve.
-          </Text>
-        </View>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.header}>
+            <Text style={styles.logo}>⚡️</Text>
+            <Text style={styles.title}>HarmonyWork</Text>
+            <Text style={styles.subtitle}>
+              Seu dia organizado. Sua mente leve.
+            </Text>
+          </View>
 
-        <View style={styles.form}>
+          <View style={styles.form}>
           {!isLogin && (
             <Input
               label="Nome"
@@ -117,8 +119,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
             />
           </View>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
@@ -126,6 +129,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  flex: {
+    flex: 1,
   },
   scrollContent: {
     flexGrow: 1,

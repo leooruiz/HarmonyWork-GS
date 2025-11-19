@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { addTask } from "../../services/taskService";
@@ -23,6 +24,13 @@ export const AddTaskScreen: React.FC<AddTaskScreenProps> = ({ navigation }) => {
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<TaskPriority>("medium");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: "Nova Tarefa",
+      headerShown: true,
+    });
+  }, [navigation]);
 
   const handleSubmit = async () => {
     if (!title.trim()) {
@@ -44,22 +52,16 @@ export const AddTaskScreen: React.FC<AddTaskScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.flex}
       >
-        <View style={styles.header}>
-          <Text style={styles.title}>Nova Tarefa</Text>
-          <Text style={styles.subtitle}>
-            Organize seu dia de trabalho de forma inteligente
-          </Text>
-        </View>
-
-        <View style={styles.form}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.form}>
           <Input
             label="Título *"
             placeholder="Ex: Preparar apresentação"
@@ -162,8 +164,9 @@ export const AddTaskScreen: React.FC<AddTaskScreenProps> = ({ navigation }) => {
             </View>
           </View>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
@@ -172,23 +175,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
+  flex: {
+    flex: 1,
+  },
   scrollContent: {
     flexGrow: 1,
     padding: 24,
-    paddingTop: 60,
-  },
-  header: {
-    marginBottom: 32,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: "#666",
+    paddingTop: 16,
   },
   form: {},
   textArea: {

@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, Alert, Vibration } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  Vibration,
+  ScrollView,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../components/Button";
 import { addFocusSession } from "../../services/taskService";
 
@@ -16,6 +24,13 @@ export const FocusScreen: React.FC<FocusScreenProps> = ({ navigation }) => {
   const [isBreak, setIsBreak] = useState(false);
   const [sessionsCompleted, setSessionsCompleted] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: "Modo Foco",
+      headerShown: true,
+    });
+  }, [navigation]);
 
   useEffect(() => {
     if (isActive && seconds > 0) {
@@ -120,62 +135,68 @@ export const FocusScreen: React.FC<FocusScreenProps> = ({ navigation }) => {
     : ((WORK_TIME - seconds) / WORK_TIME) * 100;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Modo Foco</Text>
-        <Text style={styles.subtitle}>
-          Técnica Pomodoro • {isBreak ? "Pausa" : "Trabalho"}
-        </Text>
-      </View>
-
-      <View style={styles.statsContainer}>
-        <View style={styles.statBox}>
-          <Text style={styles.statNumber}>{sessionsCompleted}</Text>
-          <Text style={styles.statLabel}>Sessões hoje</Text>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.statusContainer}>
+          <Text style={styles.statusText}>
+            {isBreak ? "Pausa" : "Trabalho"} • Técnica Pomodoro
+          </Text>
         </View>
-        <View style={styles.statBox}>
-          <Text style={styles.statNumber}>{sessionsCompleted * 25}</Text>
-          <Text style={styles.statLabel}>Minutos focados</Text>
-        </View>
-      </View>
 
-      <View style={styles.timerContainer}>
-        <View style={[styles.timerCircle, isBreak && styles.timerCircleBreak]}>
-          <Text style={styles.timerText}>{formatTime(seconds)}</Text>
-          <View style={styles.progressBar}>
-            <View style={[styles.progressFill, { width: `${progress}%` }]} />
+        <View style={styles.statsContainer}>
+          <View style={styles.statBox}>
+            <Text style={styles.statNumber}>{sessionsCompleted}</Text>
+            <Text style={styles.statLabel}>Sessões hoje</Text>
+          </View>
+          <View style={styles.statBox}>
+            <Text style={styles.statNumber}>{sessionsCompleted * 25}</Text>
+            <Text style={styles.statLabel}>Minutos focados</Text>
           </View>
         </View>
-      </View>
 
-      <View style={styles.infoBox}>
-        <Text style={styles.infoIcon}>{isBreak ? "☕️" : "🎯"}</Text>
-        <Text style={styles.infoText}>
-          {isBreak
-            ? "Relaxe e descanse. Evite telas se possível!"
-            : "Foque apenas em uma tarefa. Elimine distrações!"}
-        </Text>
-      </View>
-
-      <View style={styles.controls}>
-        <Button
-          title={isActive ? "Pausar" : "Iniciar"}
-          onPress={toggleTimer}
-          variant={isActive ? "secondary" : "primary"}
-        />
-        <View style={{ marginTop: 12 }}>
-          <Button title="Reiniciar" onPress={resetTimer} variant="danger" />
+        <View style={styles.timerContainer}>
+          <View
+            style={[styles.timerCircle, isBreak && styles.timerCircleBreak]}
+          >
+            <Text style={styles.timerText}>{formatTime(seconds)}</Text>
+            <View style={styles.progressBar}>
+              <View style={[styles.progressFill, { width: `${progress}%` }]} />
+            </View>
+          </View>
         </View>
-      </View>
 
-      <View style={styles.tips}>
-        <Text style={styles.tipsTitle}>💡 Dicas de Produtividade:</Text>
-        <Text style={styles.tipsText}>• Silencie notificações</Text>
-        <Text style={styles.tipsText}>• Use fones de ouvido</Text>
-        <Text style={styles.tipsText}>• Tenha água por perto</Text>
-        <Text style={styles.tipsText}>• Respeite as pausas</Text>
-      </View>
-    </View>
+        <View style={styles.infoBox}>
+          <Text style={styles.infoIcon}>{isBreak ? "☕️" : "🎯"}</Text>
+          <Text style={styles.infoText}>
+            {isBreak
+              ? "Relaxe e descanse. Evite telas se possível!"
+              : "Foque apenas em uma tarefa. Elimine distrações!"}
+          </Text>
+        </View>
+
+        <View style={styles.controls}>
+          <Button
+            title={isActive ? "Pausar" : "Iniciar"}
+            onPress={toggleTimer}
+            variant={isActive ? "secondary" : "primary"}
+          />
+          <View style={{ marginTop: 12 }}>
+            <Button title="Reiniciar" onPress={resetTimer} variant="danger" />
+          </View>
+        </View>
+
+        <View style={styles.tips}>
+          <Text style={styles.tipsTitle}>💡 Dicas de Produtividade:</Text>
+          <Text style={styles.tipsText}>• Silencie notificações</Text>
+          <Text style={styles.tipsText}>• Use fones de ouvido</Text>
+          <Text style={styles.tipsText}>• Tenha água por perto</Text>
+          <Text style={styles.tipsText}>• Respeite as pausas</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -183,22 +204,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F5F5F5",
-    padding: 24,
-    paddingTop: 60,
   },
-  header: {
+  scrollContent: {
+    padding: 24,
+    paddingTop: 16,
+    paddingBottom: 40,
+  },
+  statusContainer: {
     marginBottom: 24,
     alignItems: "center",
   },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 4,
-  },
-  subtitle: {
+  statusText: {
     fontSize: 14,
     color: "#666",
+    fontWeight: "500",
   },
   statsContainer: {
     flexDirection: "row",

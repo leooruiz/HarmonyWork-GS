@@ -1,13 +1,25 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
 import { getTasks, getFocusSessions } from "../../services/taskService";
 import { Task, FocusSession } from "../../types";
 import { colors, typography, spacing, shadows } from "../../theme";
 
-export const ReportScreen: React.FC = () => {
+interface ReportScreenProps {
+  navigation: any;
+}
+
+export const ReportScreen: React.FC<ReportScreenProps> = ({ navigation }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [focusSessions, setFocusSessions] = useState<FocusSession[]>([]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: "Relatórios",
+      headerShown: true,
+    });
+  }, [navigation]);
 
   useFocusEffect(
     useCallback(() => {
@@ -42,13 +54,9 @@ export const ReportScreen: React.FC = () => {
       : 0;
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Relatórios</Text>
-        <Text style={styles.subtitle}>Seu desempenho geral</Text>
-      </View>
-
-      <View style={styles.section}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.section}>
         <Text style={styles.sectionTitle}>📊 Visão Geral</Text>
 
         <View style={styles.statsGrid}>
@@ -177,7 +185,8 @@ export const ReportScreen: React.FC = () => {
           </View>
         )}
       </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -186,25 +195,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F5F5F5",
   },
-  header: {
-    backgroundColor: "#fff",
-    padding: 24,
-    paddingTop: 60,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  title: {
-    fontSize: typography.fontSize.xxl,
-    fontWeight: typography.fontWeight.bold,
-    color: colors.text.primary,
-    marginBottom: spacing.xs,
-  },
-  subtitle: {
-    fontSize: typography.fontSize.base,
-    color: colors.text.secondary,
+  scrollContent: {
+    paddingBottom: spacing.lg,
   },
   section: {
     padding: spacing.base,

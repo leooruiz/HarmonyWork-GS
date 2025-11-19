@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
 import { TaskCard } from "../../components/TaskCard";
 import { Button } from "../../components/Button";
@@ -24,6 +25,13 @@ interface HomeScreenProps {
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: "Minhas Tarefas",
+      headerShown: true,
+    });
+  }, [navigation]);
 
   const loadTasks = async () => {
     try {
@@ -74,10 +82,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const completedTasks = tasks.filter((t) => t.status === "completed");
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Minhas Tarefas</Text>
-        <Text style={styles.subtitle}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <View style={styles.statusBar}>
+        <Text style={styles.statusText}>
           {pendingTasks.length} pendente{pendingTasks.length !== 1 ? "s" : ""} •{" "}
           {completedTasks.length} concluída
           {completedTasks.length !== 1 ? "s" : ""}
@@ -135,7 +142,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           onRefresh={loadTasks}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -144,25 +151,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F5F5F5",
   },
-  header: {
+  statusBar: {
     backgroundColor: "#fff",
-    padding: 24,
-    paddingTop: 60,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    padding: 16,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#E0E0E0",
   },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 4,
-  },
-  subtitle: {
+  statusText: {
     fontSize: 14,
     color: "#666",
+    fontWeight: "500",
   },
   quickActions: {
     flexDirection: "row",
