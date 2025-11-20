@@ -48,62 +48,60 @@ export const FocusScreen: React.FC<FocusScreenProps> = ({ navigation }) => {
     };
   }, [isActive, seconds]);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("beforeRemove", (e: any) => {
+      // Se o timer não está ativo ou está no estado inicial, permite sair
+      if (!isActive && seconds === WORK_TIME && !isBreak) {
+        return;
+      }
+
+      // Previne a navegação padrão
+      e.preventDefault();
+
+      // Mostra dialog de confirmação
+      Alert.alert(
+        "Sair do Modo Foco?",
+        "O timer será resetado e o progresso da sessão atual será perdido.",
+        [
+          { text: "Cancelar", style: "cancel", onPress: () => {} },
+          {
+            text: "Sair",
+            style: "destructive",
+            onPress: () => navigation.dispatch(e.data.action),
+          },
+        ]
+      );
+    });
+
+    return unsubscribe;
+  }, [navigation, isActive, seconds, isBreak]);
+
   const handleTimerComplete = async () => {
-    setIsActive(false);
     Vibration.vibrate([0, 500, 200, 500]);
 
     if (!isBreak) {
+      // Trabalho completo - iniciar pausa automaticamente
       await addFocusSession(25);
       setSessionsCompleted((prev) => prev + 1);
-
-      Alert.alert(
-        "🎉 Sessão Concluída!",
-        "Parabéns! Você completou 25 minutos de foco. Hora de uma pausa!",
-        [
-          {
-            text: "Iniciar Pausa (5 min)",
-            onPress: () => {
-              setIsBreak(true);
-              setSeconds(BREAK_TIME);
-              setIsActive(true);
-            },
-          },
-          {
-            text: "Pular Pausa",
-            onPress: () => {
-              setSeconds(WORK_TIME);
-            },
-          },
-        ]
-      );
+      setIsBreak(true);
+      setSeconds(BREAK_TIME);
+      setIsActive(true);
     } else {
-      // Pausa completa
-      Alert.alert(
-        "✨ Pausa Concluída!",
-        "Descansou bem? Vamos para a próxima sessão!",
-        [
-          {
-            text: "Iniciar Nova Sessão",
-            onPress: () => {
-              setIsBreak(false);
-              setSeconds(WORK_TIME);
-              setIsActive(true);
-            },
-          },
-          {
-            text: "Mais Tarde",
-            onPress: () => {
-              setIsBreak(false);
-              setSeconds(WORK_TIME);
-            },
-          },
-        ]
-      );
+      // Pausa completa - iniciar nova sessão automaticamente
+      setIsBreak(false);
+      setSeconds(WORK_TIME);
+      setIsActive(true);
     }
   };
 
   const toggleTimer = () => {
     setIsActive(!isActive);
+  };
+
+  const handleSkipBreak = () => {
+    setIsBreak(false);
+    setSeconds(WORK_TIME);
+    setIsActive(true);
   };
 
   const resetTimer = () => {
@@ -185,6 +183,15 @@ export const FocusScreen: React.FC<FocusScreenProps> = ({ navigation }) => {
           <View style={{ marginTop: 12 }}>
             <Button title="Reiniciar" onPress={resetTimer} variant="danger" />
           </View>
+          {isBreak && isActive && (
+            <View style={{ marginTop: 12 }}>
+              <Button
+                title="Pular Pausa"
+                onPress={handleSkipBreak}
+                variant="primary"
+              />
+            </View>
+          )}
         </View>
 
         <View style={styles.tips}>
