@@ -103,7 +103,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           style={[styles.actionButton, styles.actionButtonAdd]}
           onPress={() => navigation.navigate("AddTask")}
         >
-          <Text style={styles.actionIcon}>➕</Text>
+          <Text style={[styles.actionIcon, styles.actionIconWhite]}>+</Text>
           <Text style={[styles.actionText, styles.actionTextWhite]}>Nova Tarefa</Text>
         </TouchableOpacity>
 
@@ -202,6 +202,10 @@ const styles = StyleSheet.create({
   actionIcon: {
     fontSize: 32,
     marginBottom: 6,
+  },
+  actionIconWhite: {
+    color: colors.text.inverse,
+    fontWeight: "bold",
   },
   actionText: {
     fontSize: 12,
