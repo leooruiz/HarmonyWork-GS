@@ -15,8 +15,8 @@ interface FocusScreenProps {
   navigation: any;
 }
 
-const WORK_TIME = 25 * 60; // 25 minutos em segundos
-const BREAK_TIME = 5 * 60; // 5 minutos em segundos
+const WORK_TIME = 25 * 60;
+const BREAK_TIME = 5 * 60;
 
 export const FocusScreen: React.FC<FocusScreenProps> = ({ navigation }) => {
   const [seconds, setSeconds] = useState(WORK_TIME);
@@ -53,7 +53,6 @@ export const FocusScreen: React.FC<FocusScreenProps> = ({ navigation }) => {
     Vibration.vibrate([0, 500, 200, 500]);
 
     if (!isBreak) {
-      // Sessão de trabalho completa
       await addFocusSession(25);
       setSessionsCompleted((prev) => prev + 1);
 

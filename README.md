@@ -1,7 +1,5 @@
 # HarmonyWork - Gestão Inteligente do Trabalho
 
-![HarmonyWork Logo](https://via.placeholder.com/800x200/007AFF/FFFFFF?text=HarmonyWork)
-
 > *"Seu dia organizado. Sua mente leve. Seu trabalho no ritmo certo."*
 
 ## 📱 Sobre o Projeto
@@ -41,7 +39,7 @@ Antes de começar, certifique-se de ter instalado:
 ### 1. Clone o repositório
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone <https://github.com/leooruiz/HarmonyWork-GS>
 cd HarmonyWork-GS
 ```
 
@@ -111,7 +109,6 @@ npm run web      # Para Web
 ## 📂 Estrutura do Projeto
 
 ```
-
 HarmonyWork-GS/
 ├── src/
 │   ├── components/        # Componentes reutilizáveis
@@ -160,22 +157,8 @@ Este projeto está alinhado com:
 
 ## 👥 Equipe
 
-- [Nome do Integrante 1] - RM XXXXX
-- [Nome do Integrante 2] - RM XXXXX
-- [Nome do Integrante 3] - RM XXXXX
-
-## 📄 Licença
-
-Este projeto foi desenvolvido para fins acadêmicos.
-
-## 🐛 Problemas Conhecidos
-
-Nenhum no momento.
-
-## 📞 Suporte
-
-Para dúvidas ou problemas, entre em contato com a equipe.
+- [Leonardo de Oliveira Ruiz] - RM 98901
+- [Bruno Venturi Lopes Vieira] - RM 99431
+- [Guilherme Alves de Lima] - RM 550433
 
 ---
-
-**Desenvolvido com ❤️ para a disciplina de [Nome da Disciplina]**
