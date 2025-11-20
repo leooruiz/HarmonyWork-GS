@@ -9,9 +9,11 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { login, register } from "../../services/authService";
+import { colors } from "../../theme/colors";
 
 interface LoginScreenProps {
   onLoginSuccess: () => void;
@@ -56,24 +58,32 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.flex}
-      >
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
+    <LinearGradient
+      colors={[colors.primary, colors.secondary, colors.background.primary]}
+      locations={[0, 0.4, 1]}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.flex}
         >
-          <View style={styles.header}>
-            <Text style={styles.logo}>⚡️</Text>
-            <Text style={styles.title}>HarmonyWork</Text>
-            <Text style={styles.subtitle}>
-              Seu dia organizado. Sua mente leve.
-            </Text>
-          </View>
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={styles.header}>
+              <View style={styles.logoContainer}>
+                <Text style={styles.logo}>⚡️</Text>
+              </View>
+              <Text style={styles.title}>HarmonyWork</Text>
+              <Text style={styles.subtitle}>
+                Seu dia organizado. Sua mente leve.
+              </Text>
+            </View>
 
-          <View style={styles.form}>
+            <View style={styles.formContainer}>
+              <View style={styles.form}>
           {!isLogin && (
             <Input
               label="Nome"
@@ -118,17 +128,21 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
               variant="secondary"
             />
           </View>
-        </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+            </View>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+  },
+  safeArea: {
+    flex: 1,
   },
   flex: {
     flex: 1,
@@ -142,20 +156,47 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 48,
   },
+  logoContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "rgba(255, 255, 255, 0.25)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 8,
+  },
   logo: {
     fontSize: 64,
-    marginBottom: 16,
   },
   title: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: "bold",
-    color: "#007AFF",
+    color: colors.text.inverse,
     marginBottom: 8,
+    textShadowColor: "rgba(0, 0, 0, 0.15)",
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
   },
   subtitle: {
     fontSize: 16,
-    color: "#666",
+    color: "rgba(255, 255, 255, 0.9)",
     textAlign: "center",
+    fontWeight: "500",
+  },
+  formContainer: {
+    backgroundColor: colors.background.primary,
+    borderRadius: 24,
+    padding: 24,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+    elevation: 10,
   },
   form: {},
 });

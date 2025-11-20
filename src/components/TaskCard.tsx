@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Task } from "../types";
+import { colors } from "../theme/colors";
 
 interface TaskCardProps {
   task: Task;
@@ -16,9 +17,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   onDelete,
 }) => {
   const priorityColors = {
-    high: "#FF3B30",
-    medium: "#FF9500",
-    low: "#34C759",
+    high: colors.priority.high,
+    medium: colors.priority.medium,
+    low: colors.priority.low,
   };
 
   const priorityLabels = {
@@ -27,9 +28,16 @@ export const TaskCard: React.FC<TaskCardProps> = ({
     low: "Baixa",
   };
 
+  const borderLeftColor = priorityColors[task.priority];
+  const shadowColor = priorityColors[task.priority];
+
   return (
     <TouchableOpacity
-      style={[styles.card, task.status === "completed" && styles.cardCompleted]}
+      style={[
+        styles.card,
+        { borderLeftColor, shadowColor },
+        task.status === "completed" && styles.cardCompleted,
+      ]}
       onPress={onPress}
       activeOpacity={0.7}
     >
@@ -95,19 +103,19 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.background.elevated,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    borderLeftWidth: 4,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
     elevation: 3,
   },
   cardCompleted: {
-    opacity: 0.7,
-    backgroundColor: "#F5F5F5",
+    opacity: 0.85,
+    backgroundColor: colors.alerts.success,
   },
   header: {
     marginBottom: 8,
@@ -120,64 +128,78 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#333",
+    color: colors.text.primary,
     flex: 1,
     marginRight: 8,
   },
   titleCompleted: {
     textDecorationLine: "line-through",
-    color: "#999",
+    color: colors.text.tertiary,
   },
   priorityBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
   },
   priorityText: {
-    color: "#fff",
+    color: colors.text.inverse,
     fontSize: 12,
-    fontWeight: "600",
+    fontWeight: "700",
   },
   description: {
     fontSize: 14,
-    color: "#666",
+    color: colors.text.secondary,
     marginBottom: 12,
+    lineHeight: 20,
   },
   descriptionCompleted: {
-    color: "#999",
+    color: colors.text.tertiary,
   },
   actions: {
     flexDirection: "row",
+    gap: 8,
   },
   button: {
     flex: 1,
-    paddingVertical: 8,
+    paddingVertical: 10,
     paddingHorizontal: 12,
-    borderRadius: 6,
+    borderRadius: 8,
     alignItems: "center",
-    marginHorizontal: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 2,
   },
   completeButton: {
-    backgroundColor: "#34C759",
+    backgroundColor: colors.success,
+    shadowColor: colors.success,
   },
   deleteButton: {
-    backgroundColor: "#FF3B30",
+    backgroundColor: colors.danger,
+    shadowColor: colors.danger,
   },
   buttonText: {
-    color: "#fff",
+    color: colors.text.inverse,
     fontSize: 14,
     fontWeight: "600",
   },
   completedBadge: {
     flex: 1,
-    paddingVertical: 8,
+    paddingVertical: 10,
     paddingHorizontal: 12,
-    borderRadius: 6,
+    borderRadius: 8,
     alignItems: "center",
-    backgroundColor: "#E0E0E0",
+    backgroundColor: colors.success,
+    opacity: 0.7,
   },
   completedText: {
-    color: "#666",
+    color: colors.text.inverse,
     fontSize: 14,
     fontWeight: "600",
   },

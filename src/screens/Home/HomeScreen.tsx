@@ -8,6 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import { useFocusEffect } from "@react-navigation/native";
 import { TaskCard } from "../../components/TaskCard";
 import { Button } from "../../components/Button";
@@ -17,6 +18,7 @@ import {
   completeTask,
 } from "../../services/taskService";
 import { Task } from "../../types";
+import { colors } from "../../theme/colors";
 
 interface HomeScreenProps {
   navigation: any;
@@ -83,37 +85,42 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <View style={styles.statusBar}>
+      <LinearGradient
+        colors={[colors.primary, colors.secondary]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={styles.statusBar}
+      >
         <Text style={styles.statusText}>
           {pendingTasks.length} pendente{pendingTasks.length !== 1 ? "s" : ""} •{" "}
           {completedTasks.length} concluída
           {completedTasks.length !== 1 ? "s" : ""}
         </Text>
-      </View>
+      </LinearGradient>
 
       <View style={styles.quickActions}>
         <TouchableOpacity
-          style={styles.actionButton}
+          style={[styles.actionButton, styles.actionButtonAdd]}
           onPress={() => navigation.navigate("AddTask")}
         >
           <Text style={styles.actionIcon}>➕</Text>
-          <Text style={styles.actionText}>Nova Tarefa</Text>
+          <Text style={[styles.actionText, styles.actionTextWhite]}>Nova Tarefa</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.actionButton}
+          style={[styles.actionButton, styles.actionButtonFocus]}
           onPress={() => navigation.navigate("Focus")}
         >
           <Text style={styles.actionIcon}>⏱️</Text>
-          <Text style={styles.actionText}>Modo Foco</Text>
+          <Text style={[styles.actionText, styles.actionTextWhite]}>Modo Foco</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.actionButton}
+          style={[styles.actionButton, styles.actionButtonReport]}
           onPress={() => navigation.navigate("Report")}
         >
           <Text style={styles.actionIcon}>📊</Text>
-          <Text style={styles.actionText}>Relatórios</Text>
+          <Text style={[styles.actionText, styles.actionTextWhite]}>Relatórios</Text>
         </TouchableOpacity>
       </View>
 
@@ -149,45 +156,59 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: colors.background.secondary,
   },
   statusBar: {
-    backgroundColor: "#fff",
     padding: 16,
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "#E0E0E0",
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
   },
   statusText: {
-    fontSize: 14,
-    color: "#666",
-    fontWeight: "500",
+    fontSize: 15,
+    color: colors.text.inverse,
+    fontWeight: "600",
   },
   quickActions: {
     flexDirection: "row",
     padding: 16,
+    gap: 12,
   },
   actionButton: {
     flex: 1,
-    backgroundColor: "#fff",
-    borderRadius: 12,
+    borderRadius: 16,
     padding: 16,
-    marginHorizontal: 6,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  actionButtonAdd: {
+    backgroundColor: colors.accent,
+    shadowColor: colors.accent,
+  },
+  actionButtonFocus: {
+    backgroundColor: colors.secondary,
+    shadowColor: colors.secondary,
+  },
+  actionButtonReport: {
+    backgroundColor: colors.info,
+    shadowColor: colors.info,
   },
   actionIcon: {
-    fontSize: 28,
-    marginBottom: 4,
+    fontSize: 32,
+    marginBottom: 6,
   },
   actionText: {
     fontSize: 12,
-    color: "#666",
-    fontWeight: "600",
+    fontWeight: "700",
+  },
+  actionTextWhite: {
+    color: colors.text.inverse,
   },
   list: {
     padding: 16,
@@ -197,6 +218,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 24,
+    backgroundColor: colors.alerts.info,
+    margin: 16,
+    borderRadius: 16,
   },
   emptyIcon: {
     fontSize: 64,
@@ -205,12 +229,12 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#333",
+    color: colors.text.primary,
     marginBottom: 8,
   },
   emptySubtext: {
     fontSize: 14,
-    color: "#666",
+    color: colors.text.secondary,
     textAlign: "center",
   },
 });

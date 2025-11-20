@@ -14,6 +14,7 @@ import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { addTask } from "../../services/taskService";
 import { TaskPriority } from "../../types";
+import { colors } from "../../theme/colors";
 
 interface AddTaskScreenProps {
   navigation: any;
@@ -87,7 +88,12 @@ export const AddTaskScreen: React.FC<AddTaskScreenProps> = ({ navigation }) => {
                 style={[
                   styles.priorityButton,
                   priority === "high" && styles.priorityButtonActive,
-                  { backgroundColor: priority === "high" ? "#FF3B30" : "#FFF" },
+                  {
+                    backgroundColor:
+                      priority === "high" ? colors.priority.high : colors.background.elevated,
+                    borderColor:
+                      priority === "high" ? colors.priority.high : colors.border.light,
+                  },
                 ]}
                 onPress={() => setPriority("high")}
               >
@@ -106,7 +112,10 @@ export const AddTaskScreen: React.FC<AddTaskScreenProps> = ({ navigation }) => {
                   styles.priorityButton,
                   priority === "medium" && styles.priorityButtonActive,
                   {
-                    backgroundColor: priority === "medium" ? "#FF9500" : "#FFF",
+                    backgroundColor:
+                      priority === "medium" ? colors.priority.medium : colors.background.elevated,
+                    borderColor:
+                      priority === "medium" ? colors.priority.medium : colors.border.light,
                   },
                 ]}
                 onPress={() => setPriority("medium")}
@@ -125,7 +134,12 @@ export const AddTaskScreen: React.FC<AddTaskScreenProps> = ({ navigation }) => {
                 style={[
                   styles.priorityButton,
                   priority === "low" && styles.priorityButtonActive,
-                  { backgroundColor: priority === "low" ? "#34C759" : "#FFF" },
+                  {
+                    backgroundColor:
+                      priority === "low" ? colors.priority.low : colors.background.elevated,
+                    borderColor:
+                      priority === "low" ? colors.priority.low : colors.border.light,
+                  },
                 ]}
                 onPress={() => setPriority("low")}
               >
@@ -173,7 +187,7 @@ export const AddTaskScreen: React.FC<AddTaskScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background.secondary,
   },
   flex: {
     flex: 1,
@@ -194,49 +208,59 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#333",
+    color: colors.text.primary,
     marginBottom: 8,
   },
   priorityButtons: {
     flexDirection: "row",
+    gap: 8,
   },
   priorityButton: {
     flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    borderRadius: 12,
     borderWidth: 2,
-    borderColor: "#E0E0E0",
-    marginHorizontal: 4,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   priorityButtonActive: {
-    borderColor: "transparent",
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 4,
   },
   priorityButtonText: {
     fontSize: 14,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "700",
+    color: colors.text.primary,
   },
   priorityButtonTextActive: {
-    color: "#fff",
+    color: colors.text.inverse,
   },
   infoBox: {
     flexDirection: "row",
-    backgroundColor: "#E8F4FD",
-    padding: 12,
-    borderRadius: 8,
+    backgroundColor: colors.alerts.info,
+    padding: 16,
+    borderRadius: 12,
     marginBottom: 16,
     alignItems: "center",
+    borderLeftWidth: 4,
+    borderLeftColor: colors.primary,
   },
   infoIcon: {
-    fontSize: 20,
-    marginRight: 8,
+    fontSize: 24,
+    marginRight: 12,
   },
   infoText: {
     flex: 1,
     fontSize: 13,
-    color: "#007AFF",
+    color: colors.text.primary,
+    fontWeight: "500",
+    lineHeight: 18,
   },
   actions: {
     marginTop: 8,

@@ -8,8 +8,10 @@ import {
   ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import { Button } from "../../components/Button";
 import { addFocusSession } from "../../services/taskService";
+import { colors } from "../../theme/colors";
 
 interface FocusScreenProps {
   navigation: any;
@@ -155,14 +157,19 @@ export const FocusScreen: React.FC<FocusScreenProps> = ({ navigation }) => {
         </View>
 
         <View style={styles.timerContainer}>
-          <View
-            style={[styles.timerCircle, isBreak && styles.timerCircleBreak]}
+          <LinearGradient
+            colors={
+              isBreak ? [colors.success, "#34D399"] : [colors.primary, colors.secondary]
+            }
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.timerCircle}
           >
             <Text style={styles.timerText}>{formatTime(seconds)}</Text>
             <View style={styles.progressBar}>
               <View style={[styles.progressFill, { width: `${progress}%` }]} />
             </View>
-          </View>
+          </LinearGradient>
         </View>
 
         <View style={styles.infoBox}>
@@ -209,7 +216,7 @@ export const FocusScreen: React.FC<FocusScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: colors.background.secondary,
   },
   scrollContent: {
     padding: 24,
@@ -221,36 +228,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   statusText: {
-    fontSize: 14,
-    color: "#666",
-    fontWeight: "500",
+    fontSize: 15,
+    color: colors.text.secondary,
+    fontWeight: "600",
   },
   statsContainer: {
     flexDirection: "row",
     marginBottom: 32,
+    gap: 12,
   },
   statBox: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.alerts.info,
     padding: 16,
-    borderRadius: 12,
-    marginHorizontal: 6,
+    borderRadius: 16,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderTopWidth: 3,
+    borderTopColor: colors.primary,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 4,
   },
   statNumber: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: "bold",
-    color: "#007AFF",
+    color: colors.primary,
     marginBottom: 4,
   },
   statLabel: {
     fontSize: 12,
-    color: "#666",
+    color: colors.text.secondary,
+    fontWeight: "600",
   },
   timerContainer: {
     alignItems: "center",
@@ -260,81 +270,85 @@ const styles = StyleSheet.create({
     width: 280,
     height: 280,
     borderRadius: 140,
-    backgroundColor: "#007AFF",
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#007AFF",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
-    elevation: 8,
-  },
-  timerCircleBreak: {
-    backgroundColor: "#34C759",
-    shadowColor: "#34C759",
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.4,
+    shadowRadius: 20,
+    elevation: 12,
   },
   timerText: {
-    fontSize: 64,
+    fontSize: 68,
     fontWeight: "bold",
-    color: "#fff",
+    color: colors.text.inverse,
     marginBottom: 16,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
   },
   progressBar: {
     width: 200,
-    height: 6,
+    height: 8,
     backgroundColor: "rgba(255,255,255,0.3)",
-    borderRadius: 3,
+    borderRadius: 4,
     overflow: "hidden",
   },
   progressFill: {
     height: "100%",
-    backgroundColor: "#fff",
+    backgroundColor: colors.text.inverse,
   },
   infoBox: {
     flexDirection: "row",
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 12,
+    backgroundColor: colors.background.elevated,
+    padding: 18,
+    borderRadius: 16,
     marginBottom: 24,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderLeftWidth: 4,
+    borderLeftColor: colors.info,
+    shadowColor: colors.info,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 4,
   },
   infoIcon: {
-    fontSize: 24,
+    fontSize: 28,
     marginRight: 12,
   },
   infoText: {
     flex: 1,
     fontSize: 14,
-    color: "#333",
+    color: colors.text.primary,
     fontWeight: "500",
+    lineHeight: 20,
   },
   controls: {
     marginBottom: 24,
   },
   tips: {
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    backgroundColor: colors.alerts.success,
+    padding: 18,
+    borderRadius: 16,
+    borderLeftWidth: 4,
+    borderLeftColor: colors.success,
+    shadowColor: colors.success,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 4,
   },
   tipsTitle: {
     fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "700",
+    color: colors.text.primary,
     marginBottom: 12,
   },
   tipsText: {
     fontSize: 14,
-    color: "#666",
+    color: colors.text.secondary,
     marginBottom: 6,
+    fontWeight: "500",
   },
 });

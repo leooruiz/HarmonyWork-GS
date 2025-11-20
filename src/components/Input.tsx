@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TextInput,
   View,
@@ -9,6 +9,7 @@ import {
   ViewStyle,
   KeyboardTypeOptions,
 } from "react-native";
+import { colors } from "../theme/colors";
 
 interface InputProps {
   label?: string;
@@ -82,30 +83,54 @@ export const Input: React.FC<InputProps> = ({
   style,
   containerStyle,
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+    onFocus?.();
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    onBlur?.();
+  };
+
   return (
     <View style={[styles.container, containerStyle]}>
-      {label && <Text style={styles.label}>{label}</Text>}
-      <TextInput
-        style={[styles.input, error && styles.inputError, style]}
-        placeholderTextColor="#999"
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        secureTextEntry={secureTextEntry}
-        autoFocus={autoFocus}
-        multiline={multiline}
-        numberOfLines={numberOfLines}
-        keyboardType={keyboardType}
-        autoCapitalize={autoCapitalize}
-        autoComplete={autoComplete}
-        autoCorrect={autoCorrect}
-        editable={editable}
-        maxLength={maxLength}
-        returnKeyType={returnKeyType}
-        onSubmitEditing={onSubmitEditing}
-        onFocus={onFocus}
-        onBlur={onBlur}
-      />
+      {label && (
+        <Text style={[styles.label, isFocused && styles.labelFocused]}>
+          {label}
+        </Text>
+      )}
+      <View
+        style={[
+          styles.inputContainer,
+          isFocused && styles.inputContainerFocused,
+          error && styles.inputContainerError,
+        ]}
+      >
+        <TextInput
+          style={[styles.input, error && styles.inputError, style]}
+          placeholderTextColor={colors.text.tertiary}
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder}
+          secureTextEntry={secureTextEntry}
+          autoFocus={autoFocus}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
+          keyboardType={keyboardType}
+          autoCapitalize={autoCapitalize}
+          autoComplete={autoComplete}
+          autoCorrect={autoCorrect}
+          editable={editable}
+          maxLength={maxLength}
+          returnKeyType={returnKeyType}
+          onSubmitEditing={onSubmitEditing}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+      </View>
       {error && <Text style={styles.error}>{error}</Text>}
     </View>
   );
@@ -118,25 +143,53 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#333",
+    color: colors.text.secondary,
     marginBottom: 8,
   },
+  labelFocused: {
+    color: colors.primary,
+  },
+  inputContainer: {
+    backgroundColor: colors.background.secondary,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: colors.border.light,
+    borderLeftWidth: 3,
+    borderLeftColor: "transparent",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  inputContainerFocused: {
+    backgroundColor: colors.alerts.info,
+    borderColor: colors.primary,
+    borderLeftColor: colors.primary,
+    shadowColor: colors.primary,
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  inputContainerError: {
+    borderColor: colors.danger,
+    borderLeftColor: colors.danger,
+    backgroundColor: colors.alerts.error,
+  },
   input: {
-    backgroundColor: "#F5F5F5",
-    borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
-    color: "#333",
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
+    color: colors.text.primary,
+    borderWidth: 0,
   },
   inputError: {
-    borderColor: "#FF3B30",
+    color: colors.danger,
   },
   error: {
     fontSize: 12,
-    color: "#FF3B30",
+    color: colors.danger,
     marginTop: 4,
+    fontWeight: "500",
   },
 });

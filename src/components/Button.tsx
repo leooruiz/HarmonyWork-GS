@@ -7,6 +7,7 @@ import {
   TextStyle,
   ActivityIndicator,
 } from "react-native";
+import { colors } from "../theme/colors";
 
 interface ButtonProps {
   title: string;
@@ -47,25 +48,36 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 14,
     paddingHorizontal: 24,
-    borderRadius: 8,
+    borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
     minHeight: 50,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
   },
   primary: {
-    backgroundColor: "#007AFF",
+    backgroundColor: colors.primary,
+    shadowColor: colors.primary,
+    shadowOpacity: 0.3,
   },
   secondary: {
-    backgroundColor: "#5856D6",
+    backgroundColor: colors.secondary,
+    shadowColor: colors.secondary,
+    shadowOpacity: 0.3,
   },
   danger: {
-    backgroundColor: "#FF3B30",
+    backgroundColor: colors.danger,
+    shadowColor: colors.danger,
+    shadowOpacity: 0.3,
   },
   disabled: {
     opacity: 0.5,
   },
   text: {
-    color: "#fff",
+    color: colors.text.inverse,
     fontSize: 16,
     fontWeight: "600",
   },

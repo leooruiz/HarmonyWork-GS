@@ -60,27 +60,27 @@ export const ReportScreen: React.FC<ReportScreenProps> = ({ navigation }) => {
         <Text style={styles.sectionTitle}>📊 Visão Geral</Text>
 
         <View style={styles.statsGrid}>
-          <View style={styles.statCard}>
-            <Text style={styles.statValue}>{tasks.length}</Text>
+          <View style={[styles.statCard, styles.statCardPrimary]}>
+            <Text style={[styles.statValue, { color: colors.primary }]}>{tasks.length}</Text>
             <Text style={styles.statLabel}>Total de Tarefas</Text>
           </View>
 
-          <View style={styles.statCard}>
-            <Text style={[styles.statValue, { color: "#34C759" }]}>
+          <View style={[styles.statCard, styles.statCardSuccess]}>
+            <Text style={[styles.statValue, { color: colors.success }]}>
               {completedTasks.length}
             </Text>
             <Text style={styles.statLabel}>Concluídas</Text>
           </View>
 
-          <View style={styles.statCard}>
-            <Text style={[styles.statValue, { color: "#FF9500" }]}>
+          <View style={[styles.statCard, styles.statCardWarning]}>
+            <Text style={[styles.statValue, { color: colors.warning }]}>
               {pendingTasks.length}
             </Text>
             <Text style={styles.statLabel}>Pendentes</Text>
           </View>
 
-          <View style={styles.statCard}>
-            <Text style={[styles.statValue, { color: "#007AFF" }]}>
+          <View style={[styles.statCard, styles.statCardInfo]}>
+            <Text style={[styles.statValue, { color: colors.info }]}>
               {completionRate}%
             </Text>
             <Text style={styles.statLabel}>Taxa de Conclusão</Text>
@@ -115,30 +115,30 @@ export const ReportScreen: React.FC<ReportScreenProps> = ({ navigation }) => {
         <View style={styles.priorityCard}>
           <View style={styles.priorityRow}>
             <View
-              style={[styles.priorityDot, { backgroundColor: "#FF3B30" }]}
+              style={[styles.priorityDot, { backgroundColor: colors.priority.high }]}
             />
             <Text style={styles.priorityLabel}>Alta</Text>
-            <Text style={styles.priorityValue}>
+            <Text style={[styles.priorityValue, { color: colors.priority.high }]}>
               {tasksByPriority.high.length}
             </Text>
           </View>
 
           <View style={styles.priorityRow}>
             <View
-              style={[styles.priorityDot, { backgroundColor: "#FF9500" }]}
+              style={[styles.priorityDot, { backgroundColor: colors.priority.medium }]}
             />
             <Text style={styles.priorityLabel}>Média</Text>
-            <Text style={styles.priorityValue}>
+            <Text style={[styles.priorityValue, { color: colors.priority.medium }]}>
               {tasksByPriority.medium.length}
             </Text>
           </View>
 
           <View style={styles.priorityRow}>
             <View
-              style={[styles.priorityDot, { backgroundColor: "#34C759" }]}
+              style={[styles.priorityDot, { backgroundColor: colors.priority.low }]}
             />
             <Text style={styles.priorityLabel}>Baixa</Text>
-            <Text style={styles.priorityValue}>
+            <Text style={[styles.priorityValue, { color: colors.priority.low }]}>
               {tasksByPriority.low.length}
             </Text>
           </View>
@@ -148,7 +148,7 @@ export const ReportScreen: React.FC<ReportScreenProps> = ({ navigation }) => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>💡 Insights</Text>
 
-        <View style={styles.insightCard}>
+        <View style={[styles.insightCard, completionRate >= 70 ? styles.insightCardSuccess : completionRate >= 40 ? styles.insightCardWarning : styles.insightCardInfo]}>
           {completionRate >= 70 ? (
             <>
               <Text style={styles.insightIcon}>🎉</Text>
@@ -177,7 +177,7 @@ export const ReportScreen: React.FC<ReportScreenProps> = ({ navigation }) => {
         </View>
 
         {totalFocusMinutes >= 120 && (
-          <View style={[styles.insightCard, { backgroundColor: "#E8F4FD" }]}>
+          <View style={[styles.insightCard, styles.insightCardPrimary]}>
             <Text style={styles.insightIcon}>⭐️</Text>
             <Text style={styles.insightText}>
               Parabéns! Você já acumulou mais de 2 horas de foco profundo!
@@ -193,7 +193,7 @@ export const ReportScreen: React.FC<ReportScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: colors.background.secondary,
   },
   scrollContent: {
     paddingBottom: spacing.lg,
@@ -203,60 +203,83 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: typography.fontSize.lg,
-    fontWeight: typography.fontWeight.semibold,
+    fontWeight: typography.fontWeight.bold,
     color: colors.text.primary,
     marginBottom: spacing.md,
   },
   statsGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
+    gap: 12,
   },
   statCard: {
     flex: 1,
     minWidth: "45%",
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 12,
-    margin: 6,
+    padding: 18,
+    borderRadius: 16,
+    margin: 0,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderTopWidth: 3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  statCardPrimary: {
+    backgroundColor: colors.alerts.info,
+    borderTopColor: colors.primary,
+    shadowColor: colors.primary,
+  },
+  statCardSuccess: {
+    backgroundColor: colors.alerts.success,
+    borderTopColor: colors.success,
+    shadowColor: colors.success,
+  },
+  statCardWarning: {
+    backgroundColor: colors.alerts.warning,
+    borderTopColor: colors.warning,
+    shadowColor: colors.warning,
+  },
+  statCardInfo: {
+    backgroundColor: colors.alerts.info,
+    borderTopColor: colors.info,
+    shadowColor: colors.info,
   },
   statValue: {
     fontSize: typography.fontSize.xxxl,
     fontWeight: typography.fontWeight.bold,
-    color: colors.primary,
     marginBottom: spacing.xs,
   },
   statLabel: {
     fontSize: typography.fontSize.xs,
     color: colors.text.secondary,
     textAlign: "center",
+    fontWeight: typography.fontWeight.semibold,
   },
   focusCard: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.background.elevated,
     padding: 24,
-    borderRadius: 12,
+    borderRadius: 16,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderLeftWidth: 4,
+    borderLeftColor: colors.secondary,
+    shadowColor: colors.secondary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 4,
   },
   focusValue: {
     fontSize: typography.fontSize.huge,
     fontWeight: typography.fontWeight.bold,
-    color: colors.primary,
+    color: colors.secondary,
     marginBottom: spacing.sm,
   },
   focusLabel: {
     fontSize: typography.fontSize.base,
     color: colors.text.secondary,
     marginBottom: spacing.base,
+    fontWeight: typography.fontWeight.semibold,
   },
   focusStats: {
     flexDirection: "row",
@@ -268,67 +291,90 @@ const styles = StyleSheet.create({
   },
   focusStatValue: {
     fontSize: typography.fontSize.xl,
-    fontWeight: typography.fontWeight.semibold,
-    color: colors.text.primary,
+    fontWeight: typography.fontWeight.bold,
+    color: colors.secondary,
   },
   focusStatLabel: {
     fontSize: typography.fontSize.xs,
     color: colors.text.secondary,
+    fontWeight: typography.fontWeight.medium,
   },
   divider: {
     width: 1,
     height: 40,
-    backgroundColor: "#E0E0E0",
+    backgroundColor: colors.border.medium,
   },
   priorityCard: {
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 12,
+    backgroundColor: colors.background.elevated,
+    padding: 18,
+    borderRadius: 16,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 4,
   },
   priorityRow: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F0",
+    borderBottomColor: colors.border.light,
   },
   priorityDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: 14,
+    height: 14,
+    borderRadius: 7,
     marginRight: 12,
   },
   priorityLabel: {
     flex: 1,
     fontSize: 16,
-    color: "#333",
+    color: colors.text.primary,
+    fontWeight: typography.fontWeight.medium,
   },
   priorityValue: {
     fontSize: typography.fontSize.lg,
-    fontWeight: typography.fontWeight.semibold,
-    color: colors.primary,
+    fontWeight: typography.fontWeight.bold,
   },
   insightCard: {
-    backgroundColor: "#FFF9E6",
-    padding: 16,
-    borderRadius: 12,
+    padding: 18,
+    borderRadius: 16,
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 12,
+    borderLeftWidth: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  insightCardSuccess: {
+    backgroundColor: colors.alerts.success,
+    borderLeftColor: colors.success,
+  },
+  insightCardWarning: {
+    backgroundColor: colors.alerts.warning,
+    borderLeftColor: colors.warning,
+  },
+  insightCardInfo: {
+    backgroundColor: colors.alerts.info,
+    borderLeftColor: colors.info,
+  },
+  insightCardPrimary: {
+    backgroundColor: colors.alerts.info,
+    borderLeftColor: colors.primary,
   },
   insightIcon: {
     fontSize: 32,
-    marginRight: 12,
+    marginRight: 14,
   },
   insightText: {
     flex: 1,
     fontSize: 14,
-    color: "#333",
+    color: colors.text.primary,
     lineHeight: 20,
+    fontWeight: typography.fontWeight.medium,
   },
 });
